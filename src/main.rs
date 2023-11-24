@@ -25,7 +25,22 @@ fn main() {
     let mut current_id = 1;
 
     loop {
-        println!("Masukkan nama atau 'exit' untuk kluar");
+        println!(
+            "
+███    ███  █████  ███████ ██    ██ ██   ██ ██   ██  █████  ███    ██     
+████  ████ ██   ██ ██      ██    ██ ██  ██  ██  ██  ██   ██ ████   ██     
+██ ████ ██ ███████ ███████ ██    ██ █████   █████   ███████ ██ ██  ██     
+██  ██  ██ ██   ██      ██ ██    ██ ██  ██  ██  ██  ██   ██ ██  ██ ██     
+██      ██ ██   ██ ███████  ██████  ██   ██ ██   ██ ██   ██ ██   ████     
+                                                                          
+                                                                          
+███    ██  █████  ███    ███  █████      ██████                           
+████   ██ ██   ██ ████  ████ ██   ██          ██                          
+██ ██  ██ ███████ ██ ████ ██ ███████       ▄███                           
+██  ██ ██ ██   ██ ██  ██  ██ ██   ██       ▀▀                             
+██   ████ ██   ██ ██      ██ ██   ██       ██                             
+        "
+        );
         let mut input = String::new();
         io::stdin().read_line(&mut input).expect("err");
 
@@ -36,29 +51,45 @@ fn main() {
 
         let task = Task::new(current_id, String::from(name));
         current_id += 1;
-
-        println!("mau mengerjakan soal atau skip ? (mengerjakan/skip)");
+        println!("       
+██   ██ ███████ ██████       ██  █████  ██   ██  █████  ███    ██     ███████  ██████   █████  ██      
+██  ██  ██      ██   ██      ██ ██   ██ ██  ██  ██   ██ ████   ██     ██      ██    ██ ██   ██ ██      
+█████   █████   ██████       ██ ███████ █████   ███████ ██ ██  ██     ███████ ██    ██ ███████ ██      
+██  ██  ██      ██   ██ ██   ██ ██   ██ ██  ██  ██   ██ ██  ██ ██          ██ ██    ██ ██   ██ ██      
+██   ██ ███████ ██   ██  █████  ██   ██ ██   ██ ██   ██ ██   ████     ███████  ██████  ██   ██ ███████ 
+        ");
+        println!("ketik m untuk mengerjakan soal");
+        println!("ketik s untuk skip soal");
         let mut input = String::new();
         io::stdin().read_line(&mut input).expect("err");
 
         let action = input.trim();
-        if action == "mengerjakan" {
+        if action == "m" {
             let secret_number = 42;
             loop {
-                println!("Tebang angka masukkan berapa saja :");
+                println!(
+                    "
+████████ ███████ ██████   █████  ██   ██      █████  ███    ██  ██████  ██   ██  █████  
+    ██    ██      ██   ██ ██   ██ ██  ██      ██   ██ ████   ██ ██       ██  ██  ██   ██ 
+    ██    █████   ██████  ███████ █████       ███████ ██ ██  ██ ██   ███ █████   ███████ 
+    ██    ██      ██   ██ ██   ██ ██  ██      ██   ██ ██  ██ ██ ██    ██ ██  ██  ██   ██ 
+    ██    ███████ ██████  ██   ██ ██   ██     ██   ██ ██   ████  ██████  ██   ██ ██   ██                                                                        
+                    "
+                );
+                println!("masukkan angka berapa saja ");
                 let mut input = String::new();
                 io::stdin().read_line(&mut input).expect("err");
 
                 let guessed_number = match input.trim().parse::<i32>() {
                     Ok(num) => num,
                     Err(_) => {
-                        println!("Masukkan angka yang valid!");
+                        println!("masukkan angka koh");
                         continue;
                     }
                 };
 
                 if guessed_number == secret_number {
-                    println!("selamat anda berhasil!");
+                    println!("Jozz !!");
                     _tasks.push(Task {
                         id: current_id,
                         name: String::from(name),
@@ -66,39 +97,35 @@ fn main() {
                     });
                     break;
                 } else if guessed_number > secret_number {
-                    println!("angka terlalu tinggi. ingin skip atau tebak ulang? (skip/ulang)")
+                    println!("angka terlalu tinggi. ingin skip atau tebak ulang? ketik (s atau u)")
                 } else if guessed_number < secret_number {
-                    println!("angka terlalu rendah. ingin skip atau tebak ulang? (skip/ulang)")
+                    println!("angka terlalu rendah. ingin skip atau tebak ulang? ketik (s atau u)")
                 }
 
                 let mut input = String::new();
                 io::stdin().read_line(&mut input).expect("Err");
                 let decision = input.trim();
 
-                if decision == "skip" {
+                if decision == "s" {
                     _tasks.push(Task {
                         id: current_id,
                         name: String::from(name),
                         status: String::from("belum"),
                     });
-                } else if decision == "ulang" {
+                    break;
+                } else if decision == "u" {
                     continue;
                 } else {
-                    println!("perintah tidak valid, status tetap");
-                    _tasks.push(Task {
-                        id: current_id,
-                        name: String::from(name),
-                        status: String::from("belum"),
-                    })
+                    println!("becah rah");
+                    continue;
                 }
             }
-        } else if action == "skip" {
+        } else if action == "s" {
             _tasks.push(task)
         } else {
-            println!("perintah tidak valid. Status tetap 'belum'");
-            _tasks.push(task)
+            println!("m atau s koh mak gendeng");
+            break;
         }
-
         println!("Daftar Todo");
         for task in &_tasks {
             task.display()
